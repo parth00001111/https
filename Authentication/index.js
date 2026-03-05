@@ -6,7 +6,8 @@ const app = express();
   token : askfjasdkfjdjadjf"
   }] */
 app.use(express.json());
-const users = [];
+const users = [];// temporary data base ka kaam krega
+//when server will restart all data will be reinitialized.
 
 function generateToken() {// cuz whenever user sign we have to generate a token 
   let option = [
@@ -50,7 +51,7 @@ app.post("/sign-in", function (req, res) {
       return false;
     }
       */
-  let foundUser = null
+  let foundUser = null;
 
   for (let i = 0; i < users.length; i++) {
     if (users[i].username == username && users[i].password == password) {
@@ -58,7 +59,7 @@ app.post("/sign-in", function (req, res) {
     }
   }
   if (foundUser) {
-    const token = generateToken();
+    const token = generateToken();//it's a string 
     foundUser.token = token;//this line will also store in the users array ({users, password, token}) also 
     res.json({
       token: token
@@ -73,10 +74,10 @@ app.post("/sign-in", function (req, res) {
 
 })
 
-app.get('/me', function(req, res) {
+app.get('/me', function (req, res) {
   const token = req.headers.token;
   let foundUser = null;
-  for(let i= 0; i < users.length; i++) {
+  for (let i = 0; i < users.length; i++) {
     if (users[i].token == token) {
       foundUser = users[i];
     }
@@ -86,9 +87,9 @@ app.get('/me', function(req, res) {
       username: foundUser.username,
       password: foundUser.password
     })
-  }else {
+  } else {
     res.json({
-      message : "token invalid" 
+      message: "token invalid"
     })
   }
 })
